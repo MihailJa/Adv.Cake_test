@@ -1,0 +1,27 @@
+<?php
+require 'main.php';
+
+class revertCharactersTests extends PHPUnit_Framework_TestCase
+{
+ 
+    protected function setUp()
+    {} 
+    protected function tearDown()
+    {}
+
+    public function testCyrillic()
+    {
+        $result = revertCharacters("Привет! Давно не виделись.");
+        $this->assertEquals("Тевирп! Онвад ен ьсиледив.", $result);
+    }
+
+    public function testLatin()
+    {
+        $result = revertCharacters("Hi! How are you?");
+        $this->assertEquals("Ih! Woh era uoy?", $result);
+    }
+ 
+}
+
+
+?>
