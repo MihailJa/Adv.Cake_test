@@ -35,9 +35,6 @@ function  revertCharacters($str)
 
 }
 
-
-
-
 $result =  revertCharacters ("Привет! Давно не виделись.");
 
 echo $result;
