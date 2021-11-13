@@ -2,43 +2,33 @@
 
 function  revertCharacters($str)
 {
-    function mb_ucfirst($str)
-{
-    $str = mb_ereg_replace('^[\ ]+', '', $str);
-    $str = mb_strtoupper(mb_substr($str, 0, 1)).
-           mb_substr($str, 1, mb_strlen($str));
-    return $str;
-}
-    function revers_word ($word) { 
-        $is_upper = false;
-        preg_match_all('/./us', $word, $array);
-     
-        if(mb_strtoupper($array[0][0]) == $array[0][0])
-        $is_upper = true;
-    
-    $revers = mb_strtolower(join('', array_reverse($array[0])));      
-    $first_char = mb_substr($revers, 0, 1);
-    $array_symb = ['!',',','.',':',';','?','-'];
-    
-    if(in_array($first_char, $array_symb)){       
-        $revers = mb_substr($revers, 1, mb_strlen($revers)-1) . $first_char;     
-    }
+    function revers_word ($word) {   
+        $symbls =  '/[!\-\;,\.#$_\?&~><()]+/';
+        $array_word = mb_str_split($word);
+        $array_without_symbls = mb_str_split(preg_replace($symbls, "", mb_strtolower($word)));                  
+        $revers =  array_reverse($array_without_symbls);    
 
-    if($is_upper) 
-    $revers = mb_ucfirst($revers);
-    
-    return $revers;    
+        $length = count($array_word);
+    for($i=0; $i<$length; $i++)
+    {
+        if(mb_strtoupper($array_word[$i]) === $array_word[$i] && !preg_match( $symbls, $array_word[$i]))
+        {            
+          $revers[$i] = mb_strtoupper($revers[$i]);            
+        }
+
+        if(preg_match( $symbls, $array_word[$i]))
+        {           
+           array_splice($revers, $i, 0, $array_word[$i]);
+        }   
+    }    
+    return join('', $revers);    
     }   
     
-    $array = array_map('revers_word', preg_split('/\s/', $str));    
-    return join(' ', $array);
-
+    $result = array_map('revers_word', preg_split('/\s/', $str));    
+    return join(' ', $result);
 }
 
-$result =  revertCharacters ("Привет! Давно не виделись.");
-
+$result =  revertCharacters ("При-вет! ДавНо не ви-деЛись.");
 echo $result;
-
-
 
 ?>
